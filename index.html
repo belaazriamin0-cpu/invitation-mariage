@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Hicham &amp; Ibtissam</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:#eef3fa;
+  font-family:'Cormorant Garamond',serif;
+  overflow-x:hidden;
+  animation:fadeIn 1s;
+}
+
+.screen{display:none;}
+.screen.active{display:block;}
+
+/* ---------- Envelope screen ---------- */
+#screen-envelope{
+  height:100vh;height:100dvh;
+  display:flex;justify-content:center;align-items:center;
+}
+.envelopeWrap{position:relative;width:420px;max-width:90%;}
+.envelope{
+  width:100%;display:block;border-radius:4px;
+  animation:float 5s ease-in-out infinite;
+}
+#seal{
+  position:absolute;left:31%;top:32%;width:38%;height:34%;
+  border:none;background:none;cursor:pointer;transition:.35s;
+}
+#seal:hover{transform:scale(1.05);}
+#seal:active{transform:scale(.94);}
+.opening{animation:openEnvelope 1.4s forwards;}
+
+@keyframes openEnvelope{
+  0%{opacity:1;transform:scale(1);}
+  50%{opacity:.8;transform:scale(.92);}
+  100%{opacity:0;transform:scale(1.35);}
+}
+@keyframes float{
+  0%{transform:translateY(0);}
+  50%{transform:translateY(-10px);}
+  100%{transform:translateY(0);}
+}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes appear{
+  from{opacity:0;transform:translateY(30px);}
+  to{opacity:1;transform:none;}
+}
+
+/* ---------- Invitation screen ---------- */
+#screen-invitation{
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;
+  padding:50px 15px;
+}
+.cardWrap{position:relative;width:650px;max-width:95%;}
+.card{
+  width:100%;display:block;border-radius:18px;
+  box-shadow:0 20px 70px rgba(0,0,0,.15);
+  animation:appear 1s;transition:.5s;
+}
+.card:hover{transform:translateY(-5px);box-shadow:0 30px 90px rgba(0,0,0,.18);}
+.hotspot{
+  position:absolute;cursor:pointer;background:transparent;border:none;padding:0;
+}
+#message{
+  font-size:26px;margin-top:30px;text-align:center;
+  font-family:'Great Vibes',cursive;color:#4e5664;
+  opacity:0;transition:.5s;max-width:700px;line-height:1.5;padding-bottom:80px;
+}
+
+@media(max-width:768px){
+  .envelopeWrap{width:95%;}
+  .cardWrap{width:100%;}
+  #message{font-size:22px;padding:20px;}
+}
+</style>
+</head>
+<body>
+
+<div class="screen active" id="screen-envelope">
+  <div class="envelopeWrap">
+    <img src="envelope.png" class="envelope" id="envelopeImg" alt="Enveloppe">
+    <button id="seal" aria-label="Ouvrir l'invitation"></button>
+  </div>
+</div>
+
+<div class="screen" id="screen-invitation">
+  <div class="cardWrap">
+    <img src="invitation.png" class="card" alt="Invitation Hicham et Ibtissam">
+
+    <a class="hotspot" id="mapHotspot" target="_blank" rel="noopener"
+      href="https://www.google.com/maps/dir//Pavillon+Maya,+3,5+Km,+route+de+l'Ourika,+Marrakech+40000/@31.6627857,-7.9919869,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0xdafef1a645d56b1:0x9b38d9c2d1124c2b!2m2!1d-7.9809081!2d31.5722392?entry=ttu&g_ep=EgoyMDI2MDcyNi4wIKXMDSoASAFQAw%3D%3D"
+      style="left:24%; top:55.5%; width:52%; height:5%;"
+      aria-label="View on Google Maps"></a>
+
+    <button class="hotspot" id="yes" style="left:6%; top:92%; width:36%; height:6%;" aria-label="Yes, I'll be there"></button>
+    <button class="hotspot" id="no" style="left:45%; top:92%; width:36%; height:6%;" aria-label="Sorry, I can't"></button>
+  </div>
+
+  <p id="message"></p>
+</div>
+
+<script>
+const screenEnvelope = document.getElementById("screen-envelope");
+const screenInvitation = document.getElementById("screen-invitation");
+const seal = document.getElementById("seal");
+const envelopeImg = document.getElementById("envelopeImg");
+
+seal.addEventListener("click", ()=>{
+  envelopeImg.classList.add("opening");
+  seal.style.pointerEvents = "none";
+  setTimeout(()=>{
+    screenEnvelope.classList.remove("active");
+    screenInvitation.classList.add("active");
+    window.scrollTo({top:0, behavior:"instant"});
+  }, 1200);
+});
+
+const yes = document.getElementById("yes");
+const no = document.getElementById("no");
+const message = document.getElementById("message");
+
+yes.addEventListener("click", ()=>{
+  message.style.opacity = 0;
+  setTimeout(()=>{
+    message.innerHTML = "Wonderful — we can't wait to celebrate with you!";
+    message.style.opacity = 1;
+  }, 200);
+});
+
+no.addEventListener("click", ()=>{
+  message.style.opacity = 0;
+  setTimeout(()=>{
+    message.innerHTML = "We'll miss you — thank you for letting us know.";
+    message.style.opacity = 1;
+  }, 200);
+});
+</script>
+
+</body>
+</html>
